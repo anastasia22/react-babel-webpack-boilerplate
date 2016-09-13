@@ -7,8 +7,8 @@ module.exports = {
     path.resolve(__dirname, 'app/main.jsx')
   ],
   output: {
-    path: __dirname + '/app',
-    filename: './bundle.js'
+    path: __dirname + '/static/',
+    filename: 'bundle.js'
   },
   module: {
     loaders:[
@@ -21,6 +21,6 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new OpenBrowserPlugin({ url: 'http://localhost:8080' })
+    new OpenBrowserPlugin({ url: 'http://localhost:3333' })
   ]
 };

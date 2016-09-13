@@ -17,6 +17,8 @@
   },
   "dependencies": {
     "babel-runtime": "6.x",
+    "body-parser": "^1.15.2",
+    "client-sessions": "^0.7.0",
     "express": "^4.14.0",
     "mongodb": "^2.2.8",
     "mongoose": "^4.5.10",
@@ -54,13 +56,8 @@
     "web app",
     "boilerplate"
   ],
-  "author": "Ruan Yifeng",
-  "license": "MIT",
   "config": {
-    "ghooks": {
-      "pre-commit": "npm run lint",
-      "commit-msg": "npm run lint:msg"
-    },
+    "ghooks": {},
     "validate-commit-msg": {
       "types": [
         "feat",

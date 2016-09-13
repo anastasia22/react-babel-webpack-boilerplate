@@ -1,5 +1,6 @@
 import React from 'react';
 import Input from './Input';
+import RegisterForm from './RegisterForm'
 
 require('./App.css');
 
@@ -27,17 +28,22 @@ export default class App extends React.Component {
     this.setState({inputValue: newValue});
   }
   render() {
-    return (
-    <div>
-      <h1>This is Slack </h1>
-      <Input changeCallback={this.InputChangeCallback}/>
-      <button onClick={this.handleClick}> Send message </button>
-      <div id="data">
-        {this.state.mainConversation.map(function(item, i){
-            return (<div className="message" key={i}> {item} </div>);
-        })}
-      </div>
-    </div>
-    );
+    return <RegisterForm />
   }
 }
+
+
+/*
+return (
+<div>
+  <h1>This is Slack </h1>
+  <Input changeCallback={this.InputChangeCallback}/>
+  <button onClick={this.handleClick}> Send message </button>
+  <div id="data">
+    {this.state.mainConversation.map(function(item, i){
+        return (<div className="message" key={i}> {item} </div>);
+    })}
+  </div>
+</div>
+);
+*/
