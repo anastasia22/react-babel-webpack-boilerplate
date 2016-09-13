@@ -24,6 +24,7 @@
     "mongoose": "^4.5.10",
     "react": "15.x",
     "react-dom": "15.x",
+    "react-router": "^2.8.1",
     "socket.io": "^1.4.8"
   },
   "devDependencies": {

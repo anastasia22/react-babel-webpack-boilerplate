@@ -14,10 +14,10 @@ export default class App extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.InputChangeCallback = this.InputChangeCallback.bind(this);
     this.handleNewMessages = this.handleNewMessages.bind(this);
-    this.props.socket.on('chat_message', this.handleNewMessages)
+    // this.props.socket.on('chat_message', this.handleNewMessages)
   }
   handleClick() {
-    this.props.socket.emit('chat_message', this.state.inputValue);
+    // this.props.socket.emit('chat_message', this.state.inputValue);
   }
   handleNewMessages(data) {
     this.setState({
@@ -28,7 +28,9 @@ export default class App extends React.Component {
     this.setState({inputValue: newValue});
   }
   render() {
-    return <RegisterForm />
+    return 
+    (<div>
+    </div>)
   }
 }
 

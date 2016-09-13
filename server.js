@@ -18,7 +18,7 @@ app.use(session({
 }));
 
 app.get('/', function (req, res) {
-  console.log('trying to login');
+  console.log('trying to login', req);
   if (req.session && req.session.user) {
     User.findOne({email: req.sessiom.body.password}, function(err, user){
       if (!user) {
@@ -30,13 +30,21 @@ app.get('/', function (req, res) {
         //success
       }
     });
+  res.sendFile(__dirname + '/index.html');
+
+  }
+  else {
+    res.redirect('/login')
   }
 
-  res.sendFile(__dirname + '/index.html');
+
 });
 
+app.get('/login', function(req,res){
+  res.sendFile(__dirname + '/index.html');
+});
 //checking if user entered correct password when logging
-app.get('/login', function () {
+app.post('/login', function () {
     User.findOne({email: req.body.email}, function(err, user){
       if (!user) {
         console.log('no such email address')
