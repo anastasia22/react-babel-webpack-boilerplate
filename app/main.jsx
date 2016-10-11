@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import RegisterForm from './components/RegisterForm.jsx';
-import Input from './components/Input.jsx';
+import Register from './components/Register.jsx';
 import { createHashHistory } from 'history';
 import { Router, Route, IndexRoute, Link, useRouterHistory  } from 'react-router';
 import $ from 'jquery';
@@ -16,8 +15,7 @@ const appHistory = useRouterHistory(createHashHistory)({
 ReactDOM.render(
   <Router history={appHistory}>
     <Route path="/" component={App}>
-      <Route path="/register" component={RegisterForm}/>
-      <Route path="/login" component={Input}/>
+      <Route path="/register" component={Register}/>
     </Route>
   </Router>,
   document.body.appendChild(document.createElement('div'))

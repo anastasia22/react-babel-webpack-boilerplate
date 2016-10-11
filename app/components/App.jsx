@@ -1,6 +1,6 @@
 import React from 'react';
-import Input from './Input';
-import RegisterForm from './RegisterForm'
+import MainInput from './MainInput';
+import Register from './Register'
 
 require('./App.css');
 
@@ -12,7 +12,7 @@ export default class App extends React.Component {
       mainConversation: []
     };
     this.handleClick = this.handleClick.bind(this);
-    this.InputChangeCallback = this.InputChangeCallback.bind(this);
+    this.MainInputChangeCallback = this.MainInputChangeCallback.bind(this);
     this.handleNewMessages = this.handleNewMessages.bind(this);
     // this.props.socket.on('chat_message', this.handleNewMessages)
   }
@@ -24,7 +24,7 @@ export default class App extends React.Component {
       mainConversation: this.state.mainConversation.concat(data)
     });
   }
-  InputChangeCallback(newValue) {
+  MainInputChangeCallback(newValue) {
     this.setState({inputValue: newValue});
   }
   render() {
@@ -40,7 +40,7 @@ export default class App extends React.Component {
 return (
 <div>
   <h1>This is Slack </h1>
-  <Input changeCallback={this.InputChangeCallback}/>
+  <MainInput changeCallback={this.MainInputChangeCallback}/>
   <button onClick={this.handleClick}> Send message </button>
   <div id="data">
     {this.state.mainConversation.map(function(item, i){

@@ -7,7 +7,7 @@ export default class MainInput extends React.Component {
   }
   render() {
     return (
-      <div> Main Input Area</div>
+      <div> Main Input</div>
     );
   }
 }

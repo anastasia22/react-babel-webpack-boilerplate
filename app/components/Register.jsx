@@ -13,7 +13,6 @@ export default class RegisterForm extends React.Component {
     this.handleLastNameChange = this.handleLastNameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
   }
   handleFirstNameChange(event) {
       this.setState({firstName: event.target.value});
@@ -27,16 +26,9 @@ export default class RegisterForm extends React.Component {
   handleEmailChange(event) {
       this.setState({email: event.target.value});
   }
-  onSubmit(e, data) {
-    e.preventDefault();
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", '/register');
-    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-    xhr.send(JSON.stringify(this.state));
-  }
   render() {
     return (
-      <form name="RegisterForm" onSubmit={this.onSubmit}>
+      <form name="RegisterForm" action="/register" method="post">
         <input
           name="firstName"
           type="text"

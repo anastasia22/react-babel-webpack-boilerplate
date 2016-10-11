@@ -2,9 +2,9 @@ import React from 'react';
 import Header from './Header';
 import MainArea from './MainArea';
 import MainInput from './MainInput';
-import SideMenu from './MainInput';
+import SideMenu from './SideMenu';
 
-export default class SideMenu extends React.Component {
+export default class Cabinet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
