@@ -52,7 +52,7 @@ export default class RegisterForm extends React.Component {
         <input
           name="email"
           type="text"
-          placeholder="Enter email..."
+          placeholder="Enter end email..."
           onChange={this.handleEmailChange}
         />
         <input

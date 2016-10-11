@@ -28,8 +28,9 @@ export default class App extends React.Component {
     this.setState({inputValue: newValue});
   }
   render() {
-    return 
-    (<div>
+    return
+    (<div>hello its slack
+      {this.props.children}
     </div>)
   }
 }
