@@ -11,7 +11,7 @@ export default class Login extends React.Component {
     return (
       <div>
         <form method="post" action="login">
-            <input type="email" name="email" placeholder="Name"/><br/>
+            <input type="email" name="email" placeholder="Email"/><br/>
             <input type="password" name="password" placeholder="Password"/><br/>
             <input type="submit" placeholder="Log in!"/>
         </form>

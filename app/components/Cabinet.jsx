@@ -11,12 +11,13 @@ export default class Cabinet extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="cabinet">
+        <SideMenu />
+        <div class="right-menu">
           <Header />
-          <SideMenu />
-          <div> Cabinet </div>
           <MainArea />
           <MainInput />
+        </div>
       </div>
     );
   }

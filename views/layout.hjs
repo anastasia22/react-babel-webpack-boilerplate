@@ -3,10 +3,12 @@
   <title>React-Babel-Webpack Boileplate</title>
   <script src="/socket.io/socket.io.js"></script>
   <body>
+    {{{header}}}
+    {{{sideMenu}}}
     <div class="content">
       {{{content}}}
     </div>
-    <script type="text/javascript" src="/bundle.js"></script>
+    <script type="text/javascript" src="bundle.js"></script>
     <script src="http://localhost:35729/livereload.js"></script>
   </body>
 </html>

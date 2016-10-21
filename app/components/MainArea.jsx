@@ -7,7 +7,7 @@ export default class MainArea extends React.Component {
   }
   render() {
     return (
-      <div> Main chat area</div>
+      <div class="main-area"> Main chat area</div>
     );
   }
 }

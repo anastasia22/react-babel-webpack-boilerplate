@@ -1,0 +1,18 @@
+.cabinet {
+  .header {
+    min-height:50px;
+    background: #ccc;
+    text-align: center;
+    width:100%;
+  }
+  .right-menu {
+    background: #eee;
+    width:70%;
+    display: inline-block;
+  }
+  .side-menu{
+    width:30%;
+    display: inline-block;
+    background: #444;
+  }
+}
