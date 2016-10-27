@@ -5,22 +5,23 @@ var OpenBrowserPlugin = require('open-browser-webpack-plugin');
 var LiveReloadPlugin = require('webpack-livereload-plugin');
 
 module.exports = {
-  entry: [
-    path.resolve(__dirname, 'app/main.jsx')
-  ],
+  entry: {a: [
+    path.resolve(__dirname, 'app/main.jsx'),
+    path.resolve(__dirname, 'router.js')
+  ]},
   output: {
     path: __dirname + '/static',
     filename: './bundle.js'
   },
   module: {
-    loaders:[
+    loaders: [
       { test: /\.jsx?$/,
         exclude: /node_modules/,
-        include: path.resolve(__dirname, 'app'),
+        include: [path.resolve(__dirname, 'app'), path.resolve(__dirname, 'router.js')],
         loader: 'babel-loader',
         query: {
           plugins: ['transform-runtime'],
-          presets: ['es2015', 'stage-0', 'react'],
+          presets: ['es2015', 'react', 'stage-0'],
         }
       },
       { test: /\.css$/,

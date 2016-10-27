@@ -2,16 +2,10 @@
   "name": "react-babel-webpack-boilerplate",
   "main": "app/main.jsx",
   "scripts": {
-    "lint": "eslint 'app/**/*.@(js|jsx)'",
-    "lint:msg": "validate-commit-msg",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
-    "start": "webpack-dev-server --devtool eval --progress --hot --content-base app",
-    "deploy": "NODE_ENV=production webpack -p --config webpack.production.config.js",
-    "deploy-windows": "SET NODE_ENV=production & webpack -p --config webpack.production.config.js",
-    "validate": "npm ls",
-    "commit": "git cz",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1"
+    "build": "",
+    "start": "nodemon server.js --exec babel-node --presets react es2015 stage-0",
+    "deploy": "NODE_ENV=production webpack -p --config webpack.production.config.js | webpack -w"
   },
   "dependencies": {
     "babel-polyfill": "^6.16.0",
@@ -34,6 +28,7 @@
     "webpack-dev-server": "^1.16.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.18.0",
     "babel-core": "6.x",
     "babel-eslint": "6.x",
     "babel-loader": "6.x",
@@ -53,6 +48,7 @@
     "eslint-plugin-react": "latest",
     "ghooks": "^1.0.3",
     "hjs": "0.0.6",
+    "jquery": "^3.1.1",
     "open-browser-webpack-plugin": "0.0.2",
     "style-loader": "~0.13.0",
     "validate-commit-msg": "2.x",

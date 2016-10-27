@@ -1,30 +1,20 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import Register from './components/Register.jsx';
-import { createHashHistory } from 'history';
-import { Router, Route, IndexRoute, Link, useRouterHistory  } from 'react-router';
-import $ from 'jquery';
-import App from './components/App.jsx';
+import { match, Router } from 'react-router'
+import { render } from 'react-dom'
+import { createBrowserHistory  } from 'history'
+import { browserHistory } from 'react-router'
+import routes from '../router'
 
+const { pathname, search, hash } = window.location
+const location = `${pathname}${search}${hash}`
 
+Object.assign(routes, {initData: window.__APP_INITIAL_STATE__}); 
 
-const appHistory = useRouterHistory(createHashHistory)({
-   queryKey: false
- });
-
-ReactDOM.render(
-  <Router history={appHistory}>
-    <Route path="/" component={App}>
-      <Route path="/register" component={Register}/>
-    </Route>
-  </Router>,
-  document.body.appendChild(document.createElement('div'))
-);
-
-/*
-// var socket = io();
-
-// ReactDOM.render(
-//   <App socket={socket}/>,
-//   document.body.appendChild(document.createElement('div'))
-// );*/
+match({ routes, location }, () => {
+ render(
+   <Router
+     routes={routes}
+     history={browserHistory}
+   />,
+   document.getElementById('content'))
+})

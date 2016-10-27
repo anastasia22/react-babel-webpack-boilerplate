@@ -1,15 +1,18 @@
-require('babel-register')({
-    presets: ['es2015', 'react']
-});
+import express from 'express'
+import bodyParser from 'body-parser'
+import path from 'path'
+import session from 'client-sessions'
+import http from 'http'
+import { match, RouterContext } from 'react-router'
+import socket from 'socket.io'
+import db from './db'
+import routes from './router'
+import config from './config'
 
-var express = require('express');
-var bodyParser = require('body-parser');
-var path = require('path');
-var session = require('client-sessions');
-var app = express();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
-var dbModels = require('./db.js')();
+let app = express();
+let server = http.Server(app);
+let io = socket(server);
+let dbModels = db();
 
 app.use(express.static(__dirname + '/static/'));
 app.set('views', path.join(__dirname, '/views/'));
@@ -17,53 +20,17 @@ app.set('port', process.env.PORT || 8080);
 app.set('view engine', 'hjs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use('/login', require('./routers/login'));
-app.use('/register', require('./routers/register'));
-
 app.use(session({
   cookieName: 'sessionSlack',
   secret: 'olaola',
-  duration: 1 * 60 * 1000,
-  activeDuration: 1 * 60 * 1000
+  duration: 30 * 60 * 1000,
+  activeDuration: 30 * 60 * 1000
 }));
 
-app.get('/cabinet', function handleRequest (req, res) {
-if (req.sessionSlack && req.sessionSlack.user) {
-  console.log('name of user', req.sessionSlack.user.name);
 
-}
-if (req.sessionSlack && req.sessionSlack.user) {
-  console.log('user in session found');
-  dbModels.User.findOne({email: req.sessionSlack.user.email}, function(err, user){
-    if (!user) {
-      console.log('wrond user data');
-      req.sessionSlack.reset();
-      res.redirect('/login');
-    } else {
-      res.locals.user = user;
-      console.log('we know such user!!!');
-      res.render('layout', {
-        header: res.locals.user.firstName + res.locals.user.lastName,
-        content: "This is your cabinet <a href='/logout'>Logout</a> to quit"
-      });
-    }
-  });
-}
-else {
-  req.sessionSlack.reset();
-  console.log('no session, redirected to login');
-  res.redirect('/login');
-}});
-
-app.get('/logout', function(req, res) {
-  console.log('get logout');
-  req.sessionSlack.reset();
-  res.redirect('/login');
-});
-
-app.post('/login', function (req, res) {
+app.post('/login', (req, res) => {
 console.log('post login');
-    dbModels.User.findOne({email: req.body.email}, function(err, user){
+    dbModels.User.findOne({email: req.body.email}, (err, user) => {
       if (!user) {
         console.log('no such email address in db');
         res.status(401).send('no such email address in db');
@@ -79,10 +46,9 @@ console.log('post login');
       }
     });
 });
-
-app.post('/register', function (req, res) {
+app.post('/register', (req, res) => {
   console.log('post register');
-  dbModels.User.findOne({email: req.body.email}, function(err, user){
+  dbModels.User.findOne({email: req.body.email}, (err, user) => {
     if (!user) {
       var newUser = new dbModels.User({
         firstName: req.body.firstName,
@@ -90,7 +56,7 @@ app.post('/register', function (req, res) {
         email: req.body.email,
         password: req.body.password
       });
-      newUser.save(function(err) {
+      newUser.save((err) => {
         if (err) {
           console.log('Error when saving user')
         } else {
@@ -105,22 +71,56 @@ app.post('/register', function (req, res) {
   });
 
 });
+app.post('/users', (req, res) => {
+  console.log('looking for user');
+  dbModels.User.findOne({firstName: req.body.user}, (err, user) => {
+    if (!user) {
+      res.status(401).send('user was not found');
+    } else {
+      response.writeHead(200, {"Content-Type": "application/json"});
+      let foundedUser = JSON.stringify(user);
+      response.end(foundedUser);
+    }
+  });
+});
+app.post('/message', (req, res) => {
+  console.log('looking for user');
+  dbModels.User.findOne({firstName: req.body.user}, (err, user) => {
+    if (!user) {
+      res.status(401).send('sorry, error occured');
+    } else {
+      response.writeHead(200, {"Content-Type": "application/json"});
+      let foundedUser = JSON.stringify(user);
+      response.end(foundedUser);
+    }
+  });
+});
 
-app.use(require('./routers/404'));
+app.use(function(req, res) {
+  console.log('entry point', req.url);
 
+  match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
+      if (error)
+        console.log('ERROR!')
+      else if (renderProps)
+        config(req, res, renderProps, dbModels)
+      else
+        console.log(renderProps)
+    })
+})
 
 //socket
-io.on('connection', function (socket) {
+io.on('connection', (socket) => {
   console.log('socket connected');
   socket.emit('new_connection', { hello: 'world' });
-  socket.on('chat_message', function (data) {
+  socket.on('chat_message', (data) => {
     io.emit('chat_message', data);
   });
-  socket.on('disconnect', function () {
+  socket.on('disconnect', () => {
     console.log('socket disconnected');
   });
 });
 
-server.listen(app.get('port'), function () {
+server.listen(app.get('port'), () => {
   console.log('Server is up and listening on port ' + server.address().port);
 });

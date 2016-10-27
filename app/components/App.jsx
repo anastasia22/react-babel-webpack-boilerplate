@@ -1,52 +1,29 @@
 import React from 'react';
-import MainInput from './MainInput';
-import Register from './Register'
-
-require('./App.css');
+import $ from 'jquery'
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      inputValue: "",
-      mainConversation: []
-    };
-    this.handleClick = this.handleClick.bind(this);
-    this.MainInputChangeCallback = this.MainInputChangeCallback.bind(this);
-    this.handleNewMessages = this.handleNewMessages.bind(this);
-    // this.props.socket.on('chat_message', this.handleNewMessages)
-  }
-  handleClick() {
-    // this.props.socket.emit('chat_message', this.state.inputValue);
-  }
-  handleNewMessages(data) {
-    this.setState({
-      mainConversation: this.state.mainConversation.concat(data)
-    });
-  }
-  MainInputChangeCallback(newValue) {
-    this.setState({inputValue: newValue});
+      this.state = {
+        initData: this.props.route.initData
+      }
+      console.log('app state', this.state);
   }
   render() {
-    return
-    (<div>hello its slack
-      {this.props.children}
-    </div>)
+    if (this.state.initData !== undefined) {
+      const childrenWithProps = React.Children.map(this.props.children,
+       (child) => React.cloneElement(child, {
+         initData: this.state.initData
+       }))
+       return (
+         <div className="app">
+           {childrenWithProps}
+         </div>)
+    } else {
+      return (
+      <div className="app">
+        {this.props.children}
+      </div>)
+    }
   }
 }
-
-
-/*
-return (
-<div>
-  <h1>This is Slack </h1>
-  <MainInput changeCallback={this.MainInputChangeCallback}/>
-  <button onClick={this.handleClick}> Send message </button>
-  <div id="data">
-    {this.state.mainConversation.map(function(item, i){
-        return (<div className="message" key={i}> {item} </div>);
-    })}
-  </div>
-</div>
-);
-*/

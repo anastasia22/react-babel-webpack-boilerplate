@@ -1,4 +1,4 @@
-module.exports = function() {
+export default function() {
   var mongoose = require('mongoose');
   var db = mongoose.connection;
 
@@ -10,10 +10,6 @@ module.exports = function() {
   var Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId;
 
-  var chatRoomSchema = new Schema({
-      name: String,
-      participants: Array
-  });
   var userSchema = new Schema({
     id: ObjectId,
     firstName: String,
@@ -21,14 +17,36 @@ module.exports = function() {
     password: String,
     email: {type: String, unique: true}
   });
-  var ChatRoom = mongoose.model('ChatRoom', chatRoomSchema);
+  var messageSchema = new Schema({
+    time : { type : Date, default: Date.now },
+    id: ObjectId,
+    stamp: Number,
+    sender: String,
+    recipient: String,
+    body: String,
+    delivered: Boolean,
+    seen: Boolean
+  });
+  var conversationSchema = new Schema({
+    owner: userSchema,
+    partner: userSchema,
+    messages: [messageSchema]
+  });
+
+  conversationSchema.methods.retrieveFrom = function(index, quantity) {
+    return this.$where('this.id > ' + index + ' && this.id < ' + quantity);
+  };
+
+  var Conversation = mongoose.model('Conversation', conversationSchema);
   var User = mongoose.model('User', userSchema);
+  var Message = mongoose.model('Message', messageSchema);
 
   mongoose.connect('mongodb://localhost/slackdb');
 
   return {
-    ChatRoom: ChatRoom,
-    User: User
+    Message: Message,
+    User: User,
+    Conversation: Conversation
   }
 
-};
+}
