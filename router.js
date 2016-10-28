@@ -19,6 +19,10 @@ export default {
     {
       path: 'cabinet',
       component: Cabinet
+    },
+    {
+      path: 'logout',
+      component: null
     }
   ]
 }

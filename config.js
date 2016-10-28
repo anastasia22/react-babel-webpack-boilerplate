@@ -10,14 +10,14 @@ export default function (req, res, renderProps, db) {
     console.log('get cabinet');
     if (req.sessionSlack && req.sessionSlack.user) {
       console.log('user in session found');
-      db.User.findOne({email: req.sessionSlack.user.email}, (err, user) => {
+      db.User.findOne({email: req.sessionSlack.user.email}, {
+        email: 1, firstName: 1, lastName: 1, _id: 1}, (err, user) => {
         if (!user) {
           console.log('wrond user data');
           req.sessionSlack.reset();
           res.redirect('/login');
         } else {
           res.locals.user = user;
-          console.log('we know such user!!!');
           const markup = renderToString(<RouterContext {...renderProps}/>);
           res.render('index', {
             content: markup,
@@ -37,7 +37,15 @@ export default function (req, res, renderProps, db) {
     console.log('get logout');
     req.sessionSlack.reset();
     res.redirect('/login');
-  }  else if (req.url === '/login') {
+  } else if (req.url === '/register') {
+    console.log('get register');
+    req.sessionSlack.reset();
+    const markup = renderToString(<RouterContext {...renderProps}/>);
+    res.render('index', {
+      content: markup,
+      initialState: JSON.stringify({})
+    });
+  } else if (req.url === '/login') {
     const markup = renderToString(<RouterContext {...renderProps}/>);
     res.render('index', {
       content: markup,

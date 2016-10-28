@@ -13,7 +13,10 @@ export default class SideMenu extends React.Component {
   }
   render() {
     return (
-      <div className="header"> Header </div>
+      <div className="header">
+        Header
+        <a href="/logout" className="logout"> Logout </a>
+      </div>
     );
   }
 }

@@ -29,8 +29,11 @@ export default function() {
   });
   var conversationSchema = new Schema({
     owner: userSchema,
-    partner: userSchema,
-    messages: [messageSchema]
+    id: ObjectId,
+    companion: userSchema,
+    messages: [messageSchema],
+    newMessagesForOwner: Boolean,
+    newMessagesForCompanion: Boolean
   });
 
   conversationSchema.methods.retrieveFrom = function(index, quantity) {

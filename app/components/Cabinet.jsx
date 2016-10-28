@@ -13,13 +13,19 @@ export default class Cabinet extends React.Component {
     } else {
       this.state = {isInitDataAvailable: false};
     }
+    this.createNewConversation = this.createNewConversation.bind(this);
+
+  }
+  createNewConversation() {
 
   }
   render() {
     if (this.state.isInitDataAvailable) {
       return (
         <div className="cabinet">
-          <SideMenu initData={this.state.initData} />
+          <SideMenu
+            initData={this.state.initData}
+            conversationCb={this.createNewConversation} />
           <div className="right-menu">
             <Header initData={this.state.initData} />
             <MainArea initData={this.state.initData} />

@@ -7,7 +7,6 @@ export default class App extends React.Component {
       this.state = {
         initData: this.props.route.initData
       }
-      console.log('app state', this.state);
   }
   render() {
     if (this.state.initData !== undefined) {

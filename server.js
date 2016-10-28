@@ -27,20 +27,53 @@ app.use(session({
   activeDuration: 30 * 60 * 1000
 }));
 
+app.get('/conversations', (req, res) => {
+  let conversations = [];
 
+  dbModels.Conversation.find({owner: {_id : req.query['_id']}}, {
+    companion: 1,
+    _id: 1
+  }, (err, conversations) => {
+
+    dbModels.Conversation.find({companion: {_id : req.query['_id']}}, {
+      owner: 1,
+      _id: 1
+    }, (err, conversations) => {
+      res.send(JSON.stringify(conversations));
+    });
+  });
+
+})
+
+app.get('/search', (req, res) => {
+  let regexp;
+  let searchkey;
+  for (searchkey in req.query) {
+    regexp = new RegExp('^' + req.query[searchkey] + '\w' + '{0,}' , 'i');
+  }
+  dbModels.User.find({firstName: {$regex : regexp}}, {
+    firstName: 1,
+    lastName: 1,
+    email: 1,
+    _id: 1
+  }, (err, users) => {
+    if (users.length > 0) {
+      res.status(200).send(JSON.stringify(users))
+    } else {
+      res.status(404).send('Not found');
+    }
+  });
+})
 app.post('/login', (req, res) => {
 console.log('post login');
-    dbModels.User.findOne({email: req.body.email}, (err, user) => {
+    dbModels.User.findOne({email: req.body.email}, {firstName: 1, email: 1, _id: 1}, (err, user) => {
       if (!user) {
-        console.log('no such email address in db');
         res.status(401).send('no such email address in db');
       } else {
         if (req.body.password === user.password) {
-          console.log('begin to store session data, redirect to cabinet');
           req.sessionSlack.user = user;
           res.redirect('/cabinet');
         } else {
-          console.log('wrond password');
           res.status(401).send('wrong password');
         }
       }
@@ -71,18 +104,25 @@ app.post('/register', (req, res) => {
   });
 
 });
-app.post('/users', (req, res) => {
-  console.log('looking for user');
-  dbModels.User.findOne({firstName: req.body.user}, (err, user) => {
-    if (!user) {
-      res.status(401).send('user was not found');
+app.post('/conversation', (req, res) => {
+  console.log('post new conversation');
+  let newConversation = new dbModels.Conversation({
+    owner: req.body.owner,
+    companion: req.body.companion,
+    messages: [],
+    newMessagesForOwner: false,
+    newMessagesForCompanion: false
+  });
+  newConversation.save((err, conversation) => {
+    if (err) {
+      res.status(404).send('Not saved, error');
     } else {
-      response.writeHead(200, {"Content-Type": "application/json"});
-      let foundedUser = JSON.stringify(user);
-      response.end(foundedUser);
+      console.log('Conversation saved to db');
+      res.send(JSON.stringify(conversation));
     }
   });
 });
+
 app.post('/message', (req, res) => {
   console.log('looking for user');
   dbModels.User.findOne({firstName: req.body.user}, (err, user) => {
