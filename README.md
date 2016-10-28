@@ -1,13 +1,14 @@
 **Slack CDP project**
 This repo is a boilerplate for React-Babel-Webpack project.
+
 Technologies:
-*Express
-*React
-*ES6
-*Socket.io
-*MongoDB
-*Webpack
-*Sass
+* Express
+* React
+* ES6
+* Socket.io
+* MongoDB
+* Webpack
+* Sass
 
 App similar to Slack
 * user login/logout,
