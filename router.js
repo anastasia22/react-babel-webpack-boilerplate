@@ -9,8 +9,8 @@ export default {
   component: App,
 	childRoutes: [
     {
-			path: 'login',
-			component: Login
+      path: 'login',
+      component: Login
 		},
     {
       path: 'register',

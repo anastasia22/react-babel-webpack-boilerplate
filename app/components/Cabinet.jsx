@@ -38,36 +38,3 @@ export default class Cabinet extends React.Component {
     }
   }
 }
-
-
-
-
-
-
-/*
-return (
-<div>
-  <h1>This is Slack </h1>
-  <MainInput changeCallback={this.MainInputChangeCallback}/>
-  <button onClick={this.handleClick}> Send message </button>
-  <div id="data">
-    {this.state.mainConversation.map(function(item, i){
-        return (<div `class`Name="message" key={i}> {item} </div>);
-    })}
-  </div>
-</div>
-);
-
-
-handleClick() {
-  // this.props.socket.emit('chat_message', this.state.inputValue);
-}
-handleNewMessages(data) {
-  this.setState({
-    mainConversation: this.sxtate.mainConversation.concat(data)
-  });
-}
-MainInputChangeCallback(newValue) {
-  this.setState({inputValue: newValue});
-}
-*/
